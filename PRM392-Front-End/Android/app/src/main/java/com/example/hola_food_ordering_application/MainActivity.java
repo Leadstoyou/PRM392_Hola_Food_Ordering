@@ -3,6 +3,7 @@ package com.example.hola_food_ordering_application;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.accounts.Account;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -24,6 +25,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
 
+import io.reactivex.rxjava3.android.schedulers.AndroidSchedulers;
 import io.reactivex.rxjava3.annotations.NonNull;
 import io.reactivex.rxjava3.core.Observer;
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -38,7 +40,8 @@ public class MainActivity extends AppCompatActivity {
     GoogleSignInOptions gso;
     GoogleSignInClient gsc;
     Button googleBtn;
-
+    private ProgressDialog mProgressDialog;
+    private Disposable mDisposable;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +56,6 @@ public class MainActivity extends AppCompatActivity {
         gsc = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
-
         if (acct != null) {
             navigateToSecondActivity(acct);
         }
@@ -92,12 +94,18 @@ public class MainActivity extends AppCompatActivity {
         Gson gson = new Gson();
         String json = gson.toJson(acct);
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        mProgressDialog = new ProgressDialog(MainActivity.this);
+        mProgressDialog.setMessage("Loading..."); // Set a message for the progress dialog
+        mProgressDialog.setCancelable(false); // Make it non-cancelable
+        mProgressDialog.show();
+
         APIService.apiService.callAPI(jsonObject, acct.getIdToken())
                 .subscribeOn(Schedulers.io())
-                .observeOn(Schedulers.single())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
                                @Override
                                public void onSubscribe(@NonNull Disposable d) {
+                                   mDisposable = d;
                                    Log.d("dattt", "onSubc");
                                }
 
@@ -107,27 +115,37 @@ public class MainActivity extends AppCompatActivity {
                                    if (responseCode >= 200 && responseCode <= 300) {
                                        Log.d("dattt", "onNExt");
                                        Log.d("dattt", s.get("data").toString());
-
+                                       
                                        finish();
                                        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
-                                       intent.putExtra("jsonString",  s.get("data").toString());
+                                       intent.putExtra("jsonString", s.get("data").toString());
                                        startActivity(intent);
                                    }
                                }
 
                                @Override
                                public void onError(@NonNull Throwable e) {
-                                   Log.d("dattt", "onError");
+                                   mProgressDialog.dismiss();
+                                   Toast.makeText(MainActivity.this, "Server isn't responding", Toast.LENGTH_SHORT).show();
                                    Log.d("dattt", e.getMessage());
                                }
 
                                @Override
                                public void onComplete() {
+                                   mProgressDialog.dismiss();
                                    Log.d("dattt", "3231231");
                                }
                            }
 
                 );
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mDisposable != null){
+            mDisposable.dispose();
+        }
     }
 }
