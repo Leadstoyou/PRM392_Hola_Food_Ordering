@@ -25,7 +25,8 @@ public interface APIService {
             .addInterceptor(ldas);
 
     APIService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
+            .baseUrl("https://hola-food-ordering-application.onrender.com/api/v1/auth/")
+//            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
 //            .baseUrl("http://192.168.137.1:3000/auth/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okBuilder.build())
