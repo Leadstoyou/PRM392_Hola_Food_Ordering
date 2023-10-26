@@ -25,7 +25,7 @@ public interface APIService {
             .addInterceptor(ldas);
 
     APIService apiService = new Retrofit.Builder()
-            .baseUrl("http://192.168.101.2:3000/auth/")
+            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
 //            .baseUrl("http://192.168.137.1:3000/auth/")
             .addConverterFactory(GsonConverterFactory.create())
             .client(okBuilder.build())
@@ -33,8 +33,7 @@ public interface APIService {
             .build()
             .create(APIService.class);
 
-    @POST("login")
+    @POST("google")
     Observable<JsonObject> callAPI(@Body JsonObject jsonBody, @Header("Authorization") String jwt);
-
 
 }

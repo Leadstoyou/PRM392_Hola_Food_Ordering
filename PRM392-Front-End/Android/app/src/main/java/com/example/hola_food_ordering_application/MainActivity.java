@@ -50,46 +50,12 @@ public class MainActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 .build();
-        gsc = GoogleSignIn.getClient(this,gso);
+        gsc = GoogleSignIn.getClient(this, gso);
 
         GoogleSignInAccount acct = GoogleSignIn.getLastSignedInAccount(this);
 
-        if(acct!=null){
-            if (acct.getIdToken() != null && !acct.getIdToken().isEmpty()) {
-                String idToken = acct.getIdToken();
-                Log.d("dattt.debug23", idToken);
-            } else {
-                Log.d("dattt.debug23", "idToken is null or empty");
-            }
-            Gson gson = new Gson();
-            String json = gson.toJson(acct);
-            JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
-
-            APIService.apiService.callAPI(jsonObject,acct.getIdToken())
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(Schedulers.single())
-                    .subscribe(new Observer<JsonObject>() {
-                                   @Override
-                                   public void onSubscribe(@NonNull Disposable d) {
-                                       Log.d("dattt","onSubc");
-                                   }
-                                   @Override
-                                   public void onNext(@NonNull JsonObject s) {
-                                       Log.d("dattt",s.toString());
-                                   }
-
-                                   @Override
-                                   public void onError(@NonNull Throwable e) {
-                                       Log.d("dattt",e.getMessage());
-                                   }
-                                   @Override
-                                   public void onComplete() {
-                                       Log.d("dattt","3231231");
-                                   }
-                               }
-
-                    );
-            navigateToSecondActivity();
+        if (acct != null) {
+            navigateToSecondActivity(acct);
         }
         googleBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -99,32 +65,69 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
-
     }
 
-    void signIn(){
+    void signIn() {
         Intent signInIntent = gsc.getSignInIntent();
-        startActivityForResult(signInIntent,1000);
+        startActivityForResult(signInIntent, 1000);
     }
 
     @Override
-    protected void onActivityResult(int requestCode, int resultCode,Intent data) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if(requestCode == 1000){
+        if (requestCode == 1000) {
             Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
             try {
-               GoogleSignInAccount acc = task.getResult(ApiException.class);
-                navigateToSecondActivity();
+                GoogleSignInAccount acc = task.getResult(ApiException.class);
+                navigateToSecondActivity(acc);
             } catch (ApiException e) {
-                Log.d("dattt.debug3",  e.toString());
+                Log.d("dattt.debug3", e.toString());
                 Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_SHORT).show();
             }
         }
 
     }
-    void navigateToSecondActivity(){
-        finish();
-        Intent intent = new Intent(MainActivity.this,SecondActivity.class);
-        startActivity(intent);
+
+    void navigateToSecondActivity(GoogleSignInAccount acct) {
+        Gson gson = new Gson();
+        String json = gson.toJson(acct);
+        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
+        APIService.apiService.callAPI(jsonObject, acct.getIdToken())
+                .subscribeOn(Schedulers.io())
+                .observeOn(Schedulers.single())
+                .subscribe(new Observer<JsonObject>() {
+                               @Override
+                               public void onSubscribe(@NonNull Disposable d) {
+                                   Log.d("dattt", "onSubc");
+                               }
+
+                               @Override
+                               public void onNext(@NonNull JsonObject s) {
+                                   int responseCode = s.get("response").getAsInt();
+                                   if (responseCode >= 200 && responseCode <= 300) {
+                                       Log.d("dattt", "onNExt");
+                                       Log.d("dattt", s.get("data").toString());
+
+                                       finish();
+                                       Intent intent = new Intent(MainActivity.this, SecondActivity.class);
+                                       intent.putExtra("jsonString",  s.get("data").toString());
+                                       startActivity(intent);
+                                   }
+                               }
+
+                               @Override
+                               public void onError(@NonNull Throwable e) {
+                                   Log.d("dattt", "onError");
+                                   Log.d("dattt", e.getMessage());
+                               }
+
+                               @Override
+                               public void onComplete() {
+                                   Log.d("dattt", "3231231");
+                               }
+                           }
+
+                );
+
     }
 }
