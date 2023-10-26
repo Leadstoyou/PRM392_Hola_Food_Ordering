@@ -1,2 +1,2 @@
-import User from "./userModel.js";
+import User from "./UserModel.js";
 export { User };
