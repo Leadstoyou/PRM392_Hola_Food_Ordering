@@ -1,0 +1,11 @@
+{
+  "name": "prm392-back-end",
+  "version": "1.0.0",
+  "description": "PRM392,nodejs,express,mongodb,Oauth",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}
