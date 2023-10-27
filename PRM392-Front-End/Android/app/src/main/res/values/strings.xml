@@ -5,5 +5,11 @@
     <string name="facebook_app_id">723390519668009</string>
     <string name="fb_login_protocol_scheme">fb1234</string>
     <string name="facebook_client_token">56789</string>
+    <string name="login">Đăng nhập</string>
+    <string name="email">Email\n</string>
+    <string name="password">Password</string>
+    <string name="login_btn">Đăng nhập tài khoản</string>
+    <string name="forgot_password">Quên mật khẩu</string>
+    <string name="register">Đăng ký</string>
 
 </resources>
