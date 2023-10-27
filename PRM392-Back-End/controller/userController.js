@@ -7,7 +7,7 @@ import { HttpStatusCode } from "axios";
 const client = new OAuth2Client(config.client_id.key);
 const userLoginByGoogle = async (req, res) => {
   const idToken = req.headers.authorization;
-  console.log(1);
+  console.log(idToken);
   try {
     const ticket = await client.verifyIdToken({
       idToken: idToken,
