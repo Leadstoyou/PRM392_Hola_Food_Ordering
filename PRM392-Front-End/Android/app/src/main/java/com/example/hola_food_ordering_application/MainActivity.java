@@ -42,6 +42,7 @@ public class MainActivity extends AppCompatActivity {
     Button googleBtn;
     private ProgressDialog mProgressDialog;
     private Disposable mDisposable;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
+
                                @Override
                                public void onSubscribe(@NonNull Disposable d) {
                                    mDisposable = d;
@@ -113,21 +115,20 @@ public class MainActivity extends AppCompatActivity {
                                public void onNext(@NonNull JsonObject s) {
                                    int responseCode = s.get("response").getAsInt();
                                    if (responseCode >= 200 && responseCode <= 300) {
-                                       Log.d("dattt", "onNExt");
-                                       Log.d("dattt", s.get("data").toString());
-                                       
                                        finish();
                                        Intent intent = new Intent(MainActivity.this, SecondActivity.class);
                                        intent.putExtra("jsonString", s.get("data").toString());
                                        startActivity(intent);
+                                   } else {
+                                       onError(new Exception("Response not in the 200-300 range"));
                                    }
                                }
 
                                @Override
                                public void onError(@NonNull Throwable e) {
                                    mProgressDialog.dismiss();
-                                   Toast.makeText(MainActivity.this, "Server isn't responding", Toast.LENGTH_SHORT).show();
-                                   Log.d("dattt", e.getMessage());
+                                       Toast.makeText(MainActivity.this, "Server isn't responding", Toast.LENGTH_SHORT).show();
+                                       Log.d("dattt.error", e.toString());
                                }
 
                                @Override
@@ -144,7 +145,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mDisposable != null){
+        if (mDisposable != null) {
             mDisposable.dispose();
         }
     }

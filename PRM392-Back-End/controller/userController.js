@@ -7,7 +7,7 @@ import { HttpStatusCode } from "axios";
 const client = new OAuth2Client(config.client_id.key);
 const userLoginByGoogle = async (req, res) => {
   const idToken = req.headers.authorization;
-
+  console.log(1);
   try {
     const ticket = await client.verifyIdToken({
       idToken: idToken,
@@ -17,10 +17,14 @@ const userLoginByGoogle = async (req, res) => {
     const payload = ticket.getPayload();
     const userId = payload.sub;
     const expirationTime = payload.exp;
-
     const currentTime = Math.floor(Date.now() / 1000);
-    if (expirationTime < currentTime) {
-      res.status(401).json({ message: "Token đã hết hạn" });
+    if (expirationTime < currentTime ) {
+      res
+        .status(HttpStatusCode.Ok)
+        .json({
+          response: HttpStatusCode.Unauthorized,
+          message: "Token đã hết hạn",
+        });
       return;
     }
 
@@ -32,20 +36,28 @@ const userLoginByGoogle = async (req, res) => {
           email: payload.email,
           avatarImgUrl: payload.picture,
         });
-        res.status(HttpStatusCode.Created).json({ response: HttpStatusCode.Created, data: newUserRegistered.data });
+        res
+          .status(HttpStatusCode.Created)
+          .json({
+            response: HttpStatusCode.Created,
+            data: newUserRegistered.data,
+          });
         return;
-
       }
-      res.status(HttpStatusCode.Ok).json({ response: HttpStatusCode.Ok, data: user.data });
+      res
+        .status(HttpStatusCode.Ok)
+        .json({ response: HttpStatusCode.Ok, data: user.data });
       return;
-
     } else {
-      res.status(HttpStatusCode.Unauthorized).json({ response: HttpStatusCode.Unauthorized });
+      res
+        .status(HttpStatusCode.Ok)
+        .json({ response: HttpStatusCode.Unauthorized });
       return;
     }
-
   } catch (error) {
-    res.status(HttpStatusCode.Unauthorized).json({ response: HttpStatusCode.Unauthorized });
+    res
+      .status(HttpStatusCode.Ok)
+      .json({ response: HttpStatusCode.Unauthorized });
     return;
   }
 };
