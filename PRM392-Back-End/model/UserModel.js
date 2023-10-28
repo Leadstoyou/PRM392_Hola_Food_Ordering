@@ -1,5 +1,6 @@
 import mongoose, { Schema, ObjectId } from "mongoose";
 import validator from "validator";
+import ConfigConstants from "../constant/ConfigConstants.js";
 const UserSchema = mongoose.Schema(
   {
     id: { type: ObjectId },
@@ -24,6 +25,7 @@ const UserSchema = mongoose.Schema(
     userAvatarUrl: {
       type: String,
       required: true,
+      default: "https://res.cloudinary.com/dotknkcep/image/upload/v1698478626/Constants/OIP_15_veecvf.jpg",
       validate: {
         validator: validator.isURL,
         message: "Invalid URL for product image",
@@ -37,6 +39,7 @@ const UserSchema = mongoose.Schema(
     roleId: {
       type: Number,
       required: true,
+      default:ConfigConstants.USER_ROLE_ID
     },
   },
   {

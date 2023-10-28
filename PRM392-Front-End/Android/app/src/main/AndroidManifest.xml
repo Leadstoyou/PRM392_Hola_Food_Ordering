@@ -15,35 +15,26 @@
         android:theme="@style/Theme.Hola_Food_Ordering_Application"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ClientToken"
-            android:value="@string/facebook_client_token" />
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/server_client_id" />
-        <meta-data
-            android:name="com.facebook.sdk.ApplicationId"
-            android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".MainActivity"
-            android:exported="true">
+            android:name=".activity.customerActivity.CustomerMainActivity"
+            android:exported="true"
+            >
 
         </activity>
         <activity
-            android:name=".SecondActivity"
+            android:name=".activity.authActivity.ForgotPasswordActivity"
             android:exported="true">
-
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.authActivity.RegisterActivity"
+            android:exported="true">
+        </activity>
+        <activity
+            android:name=".activity.authActivity.LoginActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
