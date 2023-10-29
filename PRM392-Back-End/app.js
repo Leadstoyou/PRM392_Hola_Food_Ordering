@@ -5,6 +5,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import { userRouter } from "./router/indexRouter.js";
+
 dotenv.config();
 const corsOptions = {
   origin: process.env.FRONT_END_ORIGIN_URL,

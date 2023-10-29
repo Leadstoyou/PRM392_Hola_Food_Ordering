@@ -29,7 +29,7 @@ const UserSchema = mongoose.Schema(
         message: "Invalid URL for product image",
       },
     },
-    isActived: {
+    isActive: {
       type: Boolean,
       default: true,
       required: true,
@@ -37,6 +37,10 @@ const UserSchema = mongoose.Schema(
     roleId: {
       type: Number,
       required: true,
+    },
+    resetPasswordOTP: {
+      type: String,
+      require: false,
     },
   },
   {
