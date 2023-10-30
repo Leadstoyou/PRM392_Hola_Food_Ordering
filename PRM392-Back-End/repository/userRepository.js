@@ -4,6 +4,7 @@ import SuccessConstants from "../constant/SuccessConstants.js";
 import ConfigConstants from "../constant/ConfigConstants.js";
 import sendMailService from "../services/sendMailService.js";
 import generateOTPWithExpiration from "../services/createOTP.js";
+import cloudinaryService from "../services/cloudinaryService.js";
 import bcrypt from "bcrypt";
 
 const userLoginByGoogle = async (email) => {
@@ -27,6 +28,7 @@ const userLoginByGoogle = async (email) => {
     };
   }
 };
+
 const userRegisterByGoogle = async ({ username, email, avatarImgUrl }) => {
   try {
     const newUser = await User.create({
@@ -53,29 +55,32 @@ const userRegisterByGoogle = async ({ username, email, avatarImgUrl }) => {
     };
   }
 };
+
 const userRegisterByLocal = async ({
-  username,
-  email,
-  password,
-  address,
-  phoneNumber,
+  userName,
+  userEmail,
+  userPassword,
+  userPhoneNumber,
+  userAddress,
 }) => {
   try {
-    const existingUser = await User.findOne({ userEmail: email }).exec();
-
+    const existingUser = await User.findOne({ userEmail }).exec();
     if (existingUser) {
       return {
         success: false,
-        message: "Email already exists",
+        message: Exception.USER_EXIST,
       };
     }
-
+    const hashedPassword = await bcrypt.hash(
+      userPassword,
+      parseInt(process.env.SALT_ROUNDS)
+    );
     const newUser = await User.create({
-      userName: username,
-      userEmail: email,
-      userPassword: password,
-      userAddress: address,
-      userPhoneNumber: phoneNumber,
+      userName,
+      userEmail,
+      userPassword: hashedPassword,
+      userAddress,
+      userPhoneNumber,
     });
 
     const userWithoutPassword = { ...newUser._doc };
@@ -92,18 +97,31 @@ const userRegisterByLocal = async ({
     };
   }
 };
-const userLoginByLocal = async ({ email, password }) => {
+
+const userLoginByLocal = async ({ userEmail, userPassword }) => {
   try {
     const existingUser = await User.findOne({
-      userEmail: email,
-      userPassword: password,
+      userEmail,
+      userPassword,
     }).exec();
-    if (!existingUser || existingUser.length === 0) {
+    if (!existingUser) {
       return {
         response: false,
         message: Exception.CANNOT_FIND_USER,
       };
     }
+
+    const isMatched = bcrypt.compareSync(
+      userPassword,
+      existingUser.userPassword
+    );
+    if (!isMatched) {
+      return {
+        success: false,
+        message: Exception.WRONG_EMAIL_AND_PASSWORD,
+      };
+    }
+
     return {
       success: true,
       message: SuccessConstants.GET_USER_SUCCESS,
@@ -126,14 +144,12 @@ const userForgotPasswordRepository = async (userEmail) => {
         message: Exception.CANNOT_FIND_USER,
       };
     }
-
     const resetCode = generateOTPWithExpiration.generateOTPWithExpiration().otp;
     existingUser.resetPasswordOTP = resetCode;
     await existingUser.save();
     const emailSubject = "Bạn forgot password";
     const emailBody = `Đây là mã code resetpassword, mã code tồn tại trong 15p: ${resetCode}`;
     await sendMailService.sendEmailService(userEmail, emailSubject, emailBody);
-
     return {
       success: true,
       message: SuccessConstants.FORGOT_PASSWORD_SUCCESS,
@@ -321,7 +337,7 @@ const userUpdateProfileRepository = async ({
       ...(userAvtUrl && { userAvatar: userAvtUrl }),
     };
 
-    const updatedUser = await User.findByIdAndUpdate(userId, updateFields, {
+    const updatedUser = await User.findOneAndUpdate(userEmail, updateFields, {
       new: true,
     }).exec();
     if (!updatedUser) {

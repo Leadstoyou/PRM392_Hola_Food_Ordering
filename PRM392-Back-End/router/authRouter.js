@@ -1,7 +1,6 @@
 import express from "express";
 import { authController } from "../controller/indexController.js";
 
-
 const router = express.Router();
 
 router.post("/google/login", authController.userLoginByGoogle);

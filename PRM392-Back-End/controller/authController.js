@@ -13,19 +13,16 @@ const userLoginByGoogle = async (req, res) => {
       idToken: idToken,
       audience: config.client_id.key,
     });
-
     const payload = ticket.getPayload();
     const userId = payload.sub;
     const expirationTime = payload.exp;
     const currentTime = Math.floor(Date.now() / 1000);
     if (expirationTime < currentTime) {
-      res.status(HttpStatusCode.Ok).json({
+      return res.status(HttpStatusCode.Ok).json({
         response: HttpStatusCode.Unauthorized,
         message: "Token đã hết hạn",
       });
-      return;
     }
-
     if (userId) {
       const user = await userRepository.userLoginByGoogle(payload.email);
       if (!user.success && user.message === Exception.CANNOT_FIND_USER) {
@@ -34,86 +31,82 @@ const userLoginByGoogle = async (req, res) => {
           email: payload.email,
           avatarImgUrl: payload.picture,
         });
-        res.status(HttpStatusCode.Created).json({
+        return res.status(HttpStatusCode.Created).json({
           response: HttpStatusCode.Created,
           data: newUserRegistered.data,
         });
-        return;
       }
-      res
+      return res
         .status(HttpStatusCode.Ok)
         .json({ response: HttpStatusCode.Ok, data: user.data });
-      return;
     } else {
-      res
+      return res
         .status(HttpStatusCode.Ok)
         .json({ response: HttpStatusCode.Unauthorized });
-      return;
     }
   } catch (error) {
-    res
-      .status(HttpStatusCode.Ok)
-      .json({ response: HttpStatusCode.Unauthorized });
-    return;
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.InternalServerError,
+      message: error.message,
+    });
   }
 };
+
 const userLoginByLocal = async (req, res) => {
   try {
-    console.log(req.body);
-    const { email, password } = req.body;
-    const user = await userRepository.userLoginByLocal({ email, password });
+    const { userEmail, userPassword } = req.body;
+    const user = await userRepository.userLoginByLocal({
+      userEmail,
+      userPassword,
+    });
     if (!user.success) {
-      res.status(HttpStatusCode.Ok).json({
-        response: HttpStatusCode.BadRequest,
+      return res.status(HttpStatusCode.Ok).json({
+        response: HttpStatusCode.Unauthorized,
+        message: user.message,
       });
-      return;
     }
-    res
+    return res
       .status(HttpStatusCode.Ok)
       .json({ response: HttpStatusCode.Ok, data: user.data });
-    return;
   } catch (error) {
-    res
-      .status(HttpStatusCode.Ok)
-      .json({ response: HttpStatusCode.Unauthorized });
-    return;
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.InternalServerError,
+      message: error.message,
+    });
   }
 };
+
 const userRegisterByLocal = async (req, res) => {
   try {
-    const { username, email, password, address, phoneNumber } = req.body;
+    const { userName, userEmail, userPassword, userAddress, userPhoneNumber } =
+      req.body;
     const user = await userRepository.userRegisterByLocal({
-      username,
-      email,
-      password,
-      address,
-      phoneNumber,
+      userName,
+      userEmail,
+      userPassword,
+      userAddress,
+      userPhoneNumber,
     });
 
     if (!user.success) {
-      res.status(HttpStatusCode.Ok).json({
+      return res.status(HttpStatusCode.Ok).json({
         response: HttpStatusCode.BadRequest,
+        message: user.message,
       });
-      return;
     }
-    res
+    return res
       .status(HttpStatusCode.Ok)
       .json({ response: HttpStatusCode.Ok, data: user.data });
-    return;
   } catch (error) {
-    res
-      .status(HttpStatusCode.Ok)
-      .json({ response: HttpStatusCode.Unauthorized });
-    return;
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.InternalServerError,
+      message: error.message,
+    });
   }
 };
-
-
-
 
 export default {
   userLoginByGoogle,
   userLoginByLocal,
   userRegisterByLocal,
-
 };
