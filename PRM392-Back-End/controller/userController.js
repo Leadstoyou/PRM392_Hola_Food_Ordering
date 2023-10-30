@@ -1,62 +1,6 @@
-import { OAuth2Client } from "google-auth-library";
-import config from "../config/config.js";
 import { userRepository } from "../repository/indexRepository.js";
 import Exception from "../constant/Exception.js";
 import { HttpStatusCode } from "axios";
-
-const client = new OAuth2Client(config.client_id.key);
-const userLoginByGoogle = async (req, res) => {
-  const idToken = req.headers.authorization;
-  console.log(idToken);
-  try {
-    const ticket = await client.verifyIdToken({
-      idToken: idToken,
-      audience: config.client_id.key,
-    });
-
-    const payload = ticket.getPayload();
-    const userId = payload.sub;
-    const expirationTime = payload.exp;
-    const currentTime = Math.floor(Date.now() / 1000);
-    if (expirationTime < currentTime) {
-      res.status(HttpStatusCode.Ok).json({
-        response: HttpStatusCode.Unauthorized,
-        message: "Token đã hết hạn",
-      });
-      return;
-    }
-
-    if (userId) {
-      const user = await userRepository.userLoginByGoogle(payload.email);
-      if (!user.success && user.message === Exception.CANNOT_FIND_USER) {
-        const newUserRegistered = await userRepository.userRegisterByGoogle({
-          username: payload.name,
-          email: payload.email,
-          avatarImgUrl: payload.picture,
-        });
-        res.status(HttpStatusCode.Created).json({
-          response: HttpStatusCode.Created,
-          data: newUserRegistered.data,
-        });
-        return;
-      }
-      res
-        .status(HttpStatusCode.Ok)
-        .json({ response: HttpStatusCode.Ok, data: user.data });
-      return;
-    } else {
-      res
-        .status(HttpStatusCode.Ok)
-        .json({ response: HttpStatusCode.Unauthorized });
-      return;
-    }
-  } catch (error) {
-    res
-      .status(HttpStatusCode.Ok)
-      .json({ response: HttpStatusCode.Unauthorized });
-    return;
-  }
-};
 
 const userForgotPasswordController = async (req, res) => {
   const { userEmail } = req.query;
@@ -90,13 +34,13 @@ const userForgotPasswordController = async (req, res) => {
 const userResetPasswordController = async (req, res) => {
   const { newPassword, userPasswordResetToken } = req.body;
   if (!newPassword) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
+    return res.status(HttpStatusCode.BadRequest).json({
       status: "ERROR",
       message: "Missing password",
     });
   }
   if (!userPasswordResetToken) {
-    return res.status(HttpStatusCode.BAD_REQUEST).json({
+    return res.status(HttpStatusCode.BadRequest).json({
       status: "ERROR",
       message: "Invalid Token",
     });
@@ -108,7 +52,7 @@ const userResetPasswordController = async (req, res) => {
       newPassword
     );
     if (!result.success) {
-      return res.status(HttpStatusCode.UNAUTHORIZED).json({
+      return res.status(HttpStatusCode.Unauthorized).json({
         status: "ERROR",
         message: result.message,
       });
@@ -118,7 +62,7 @@ const userResetPasswordController = async (req, res) => {
       message: result.message,
     });
   } catch (exception) {
-    return res.status(HttpStatusCode.INTERNAL_SERVER_ERROR).json({
+    return res.status(HttpStatusCode.InternalServerError ).json({
       status: "ERROR",
       message: exception.message,
     });
@@ -160,7 +104,7 @@ const userChangePasswordController = async (req, res) => {
 };
 
 const userViewProfileController = async (req, res) => {
-  const {userEmail} = req.body;
+  const { userEmail } = req.body;
   try {
     const userInfo = await userRepository.userViewProfileRepository(userEmail);
     if (!userInfo.success) {
@@ -183,7 +127,7 @@ const userViewProfileController = async (req, res) => {
 };
 
 const userViewProfileDetailController = async (req, res) => {
-  const {userEmail} = req.body;
+  const { userEmail } = req.body;
   try {
     const userInfo = await userRepository.userViewProfileDetailRepository(
       userEmail
@@ -249,11 +193,10 @@ const userUpdateProfileController = async (req, res) => {
 };
 
 export default {
-  userLoginByGoogle,
   userForgotPasswordController,
   userResetPasswordController,
   userChangePasswordController,
   userViewProfileController,
   userViewProfileDetailController,
-  userUpdateProfileController
+  userUpdateProfileController,
 };

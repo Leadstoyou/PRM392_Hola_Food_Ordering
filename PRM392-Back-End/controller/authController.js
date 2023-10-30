@@ -59,9 +59,9 @@ const userLoginByGoogle = async (req, res) => {
 };
 const userLoginByLocal = async (req, res) => {
   try {
-    console.log(req.body)
+    console.log(req.body);
     const { email, password } = req.body;
-    const user = await userRepository.userLoginByLocal({email, password});
+    const user = await userRepository.userLoginByLocal({ email, password });
     if (!user.success) {
       res.status(HttpStatusCode.Ok).json({
         response: HttpStatusCode.BadRequest,
@@ -81,8 +81,14 @@ const userLoginByLocal = async (req, res) => {
 };
 const userRegisterByLocal = async (req, res) => {
   try {
-    const { username,email,password,address,phoneNumber } = req.body;
-    const user = await userRepository.userRegisterByLocal({ username,email,password,address,phoneNumber });
+    const { username, email, password, address, phoneNumber } = req.body;
+    const user = await userRepository.userRegisterByLocal({
+      username,
+      email,
+      password,
+      address,
+      phoneNumber,
+    });
 
     if (!user.success) {
       res.status(HttpStatusCode.Ok).json({
@@ -101,4 +107,13 @@ const userRegisterByLocal = async (req, res) => {
     return;
   }
 };
-export default { userLoginByGoogle, userLoginByLocal ,userRegisterByLocal};
+
+
+
+
+export default {
+  userLoginByGoogle,
+  userLoginByLocal,
+  userRegisterByLocal,
+
+};

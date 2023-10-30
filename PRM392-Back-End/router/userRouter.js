@@ -3,8 +3,6 @@ import { userController } from "../controller/indexController.js";
 
 const router = express.Router();
 
-router.post("/google", userController.userLoginByGoogle);
-
 router.get("/forgotPassword", userController.userForgotPasswordController);
 
 router.put("/resetPassword", userController.userResetPasswordController);

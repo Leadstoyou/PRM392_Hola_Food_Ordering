@@ -1,6 +1,4 @@
 import crypto from 'crypto';
-
-// Hàm tạo mã OTP an toàn
 function generateOTPWithExpiration() {
     const otpLength = 6; // Độ dài của mã OTP (ví dụ: 6 chữ số)
     const otpBuffer = crypto.randomBytes(otpLength);
