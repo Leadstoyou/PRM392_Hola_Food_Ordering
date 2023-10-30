@@ -1,4 +1,4 @@
-package com.example.hola_food_ordering_application;
+package com.example.hola_food_ordering_application.apiService;
 
 import com.google.gson.JsonObject;
 
@@ -14,7 +14,7 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-public interface APIService {
+public interface APIAuthService {
 
     HttpLoggingInterceptor ldas = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
 
@@ -24,7 +24,7 @@ public interface APIService {
             .retryOnConnectionFailure(true)
             .addInterceptor(ldas);
 
-    APIService apiService = new Retrofit.Builder()
+    APIAuthService apiService = new Retrofit.Builder()
             .baseUrl("https://hola-food-ordering-application.onrender.com/api/v1/auth/")
 //            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
 //            .baseUrl("http://192.168.137.1:8080/api/v1/auth/")
@@ -32,9 +32,12 @@ public interface APIService {
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(okBuilder.build())
             .build()
-            .create(APIService.class);
+            .create(APIAuthService.class);
 
-    @POST("google")
+    @POST("google/login")
     Observable<JsonObject> callAPI(@Body JsonObject jsonBody, @Header("Authorization") String jwt);
-
+    @POST("local/login")
+    Observable<JsonObject> callAPILoginLocal(@Body JsonObject jsonBody);
+    @POST("local/register")
+    Observable<JsonObject> callAPIRegisterLocal(@Body JsonObject jsonBody);
 }

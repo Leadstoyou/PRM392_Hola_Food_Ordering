@@ -3,4 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="loginBackground">#E5FAFD</color>
+    <color name="registerBackground">#F4F8F9</color>
+    <color name="forgotPasswordbackground">#00CEFD</color>
+    <color name="redLight">#FC5353</color>
 </resources>

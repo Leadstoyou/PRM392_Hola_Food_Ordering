@@ -11,5 +11,19 @@
     <string name="login_btn">Đăng nhập tài khoản</string>
     <string name="forgot_password">Quên mật khẩu</string>
     <string name="register">Đăng ký</string>
-
+    <string name="address">Địa chỉ</string>
+    <string name="phone_number">Số Điện Thoại</string>
+    <string name="userName">User Name</string>
+    <string name="submit">Submit\n</string>
+    <string name="forgot_password_tittle">Quên Mật Khẩu</string>
+    <string name="register_tittle" >Đăng Ký</string>
+    <string name="register_login_btn" > Bạn đã có tài khoản ?Click me...</string>
+    <string name="open">Open Nav</string>
+    <string name="close">Close Nav</string>
+    <string name="homepage">Trang chủ</string>
+    <string name="category">Danh Mục</string>
+    <string name="cart">Giỏ Hàng</string>
+    <string name="order_history">Lịch Sử Mua Hàng</string>
+    <string name="user_profile">Thông tin người dùng</string>
+    <string name="logout">Đăng Xuất</string>
 </resources>
