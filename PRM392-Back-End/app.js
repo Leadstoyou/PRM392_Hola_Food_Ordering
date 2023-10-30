@@ -4,7 +4,7 @@ import dotenv from "dotenv";
 import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
-import { authRouter } from "./router/indexRouter.js";
+import { authRouter,userRouter } from "./router/indexRouter.js";
 dotenv.config();
 const corsOptions = {
   origin: process.env.FRONT_END_ORIGIN_URL,
@@ -23,6 +23,7 @@ v1Router.use(express.json());
 v1Router.use(bodyParser.urlencoded({ extended: false }));
 
 v1Router.use("/auth", authRouter);
+v1Router.use("/user", userRouter);
 
 app.use("/api/v1", v1Router);
 

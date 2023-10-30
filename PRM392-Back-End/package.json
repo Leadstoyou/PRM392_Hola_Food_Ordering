@@ -5,14 +5,13 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "server" : "node app.js",
+    "server": "node app.js",
     "dev": "nodemon app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "google-auth-library": "^9.1.0",
     "axios": "^1.5.1",
     "bcrypt": "^5.1.1",
     "cloudinary": "^1.41.0",
@@ -26,12 +25,14 @@
     "exceljs": "^4.3.0",
     "express": "^4.18.2",
     "express-validator": "^7.0.1",
+    "google-auth-library": "^9.1.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.5.0",
-    "nodemailer": "^6.9.5",
+    "nodemailer": "^6.9.7",
     "qs": "^6.11.2",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
+    "twilio": "^4.19.0",
     "validator": "^13.11.0",
     "yaml": "^2.3.2"
   },
