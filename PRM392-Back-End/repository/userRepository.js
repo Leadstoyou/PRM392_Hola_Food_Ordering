@@ -284,9 +284,9 @@ const userUpdateProfileRepository = async ({
   userName,
   userPhoneNumber,
   userAddress,
-  userAvatar,
+  userAvatarUrl,
 }) => {
-  let userAvtUrl = null;
+  let userAvt = null;
   try {
     const existingUser = await User.findOne({userEmail}).exec();
     if (!existingUser) {
@@ -296,9 +296,9 @@ const userUpdateProfileRepository = async ({
       };
     }
 
-    if (userAvatar) {
-      userAvtUrl = await cloudinaryService.uploadProductImageToCloudinary(
-        userAvatar,
+    if (userAvatarUrl) {
+      userAvt = await cloudinaryService.uploadProductImageToCloudinary(
+        userAvatarUrl,
         ConfigConstants.CLOUDINARY_USER_AVATAR_IMG
       );
     }
@@ -307,7 +307,7 @@ const userUpdateProfileRepository = async ({
       ...(userName && { userName }),
       ...(userPhoneNumber && { userPhoneNumber }),
       ...(userAddress && { userAddress }),
-      ...(userAvtUrl && { userAvatar: userAvtUrl }),
+      ...(userAvatarUrl && { userAvatarUrl: userAvt}),
     };
 
     const updatedUser = await User.findOneAndUpdate({userEmail}, updateFields, {
@@ -328,8 +328,8 @@ const userUpdateProfileRepository = async ({
       },
     };
   } catch (exception) {
-    if (userAvtUrl) {
-      cloudinaryService.deleteImageFromCloudinary(userAvtUrl);
+    if (userAvt) {
+      cloudinaryService.deleteImageFromCloudinary(userAvt);
     }
     return {
       success: false,
