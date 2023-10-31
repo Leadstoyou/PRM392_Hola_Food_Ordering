@@ -101,8 +101,7 @@ const userRegisterByLocal = async ({
 const userLoginByLocal = async ({ userEmail, userPassword }) => {
   try {
     const existingUser = await User.findOne({
-      userEmail,
-      userPassword,
+      userEmail
     }).exec();
     if (!existingUser) {
       return {
@@ -211,7 +210,7 @@ const userChangePasswordRepository = async ({
   newPassword,
 }) => {
   try {
-    const existingUser = await User.findOne(userEmail);
+    const existingUser = await User.findOne({userEmail}).exec();
     if (!existingUser) {
       return {
         success: false,
@@ -236,7 +235,7 @@ const userChangePasswordRepository = async ({
     );
 
     const updatedUser = await User.findOneAndUpdate(
-      userEmail,
+      {userEmail},
       { userPassword: hashedPassword },
       { new: true }
     ).exec();
@@ -259,7 +258,7 @@ const userChangePasswordRepository = async ({
 
 const userViewProfileRepository = async (userEmail) => {
   try {
-    const existingUser = await User.findOne(userEmail);
+    const existingUser = await User.findOne({ userEmail }).exec();
     if (!existingUser) {
       return {
         success: false,
@@ -279,40 +278,18 @@ const userViewProfileRepository = async (userEmail) => {
   }
 };
 
-const userViewProfileDetailRepository = async (userEmail) => {
-  try {
-    const existingUser = await User.findOne(userEmail);
-    if (!existingUser) {
-      return {
-        success: false,
-        message: Exception.CANNOT_FIND_USER,
-      };
-    }
-    return {
-      success: true,
-      message: SuccessConstants.VIEW_PROFILE_SUCCESS,
-      data: existingUser,
-    };
-  } catch (exception) {
-    return {
-      success: false,
-      message: exception.message,
-    };
-  }
-};
 
 const userUpdateProfileRepository = async ({
   userEmail,
   userName,
   userPhoneNumber,
-  userGender,
   userAddress,
   userAge,
   userAvatar,
 }) => {
   let userAvtUrl = null;
   try {
-    const existingUser = await User.findOne(userEmail);
+    const existingUser = await User.findOne({userEmail}).exec();
     if (!existingUser) {
       return {
         success: false,
@@ -330,14 +307,12 @@ const userUpdateProfileRepository = async ({
     const updateFields = {
       ...(userName && { userName }),
       ...(userPhoneNumber && { userPhoneNumber }),
-      ...(userGender &&
-        ["Male", "Female"].includes(userGender) && { userGender }),
       ...(userAddress && { userAddress }),
       ...(userAge > 0 && { userAge }),
       ...(userAvtUrl && { userAvatar: userAvtUrl }),
     };
 
-    const updatedUser = await User.findOneAndUpdate(userEmail, updateFields, {
+    const updatedUser = await User.findOneAndUpdate({userEmail}, updateFields, {
       new: true,
     }).exec();
     if (!updatedUser) {
@@ -374,6 +349,5 @@ export default {
   userResetPasswordRepository,
   userChangePasswordRepository,
   userViewProfileRepository,
-  userViewProfileDetailRepository,
   userUpdateProfileRepository,
 };

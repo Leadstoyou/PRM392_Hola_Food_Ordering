@@ -133,33 +133,6 @@ const userViewProfileController = async (req, res) => {
   }
 };
 
-const userViewProfileDetailController = async (req, res) => {
-  const { userEmail } = req.body;
-  try {
-    const userInfo = await userRepository.userViewProfileDetailRepository(
-      userEmail
-    );
-    if (!userInfo.success) {
-      return res.status(HttpStatusCode.Ok).json({
-        response: HttpStatusCode.BadRequest,
-        message: userInfo.message,
-      });
-    }
-    return res.status(HttpStatusCode.Ok).json({
-      response: HttpStatusCode.Ok,
-      message: userInfo.message,
-      data: userInfo.data,
-    });
-  } catch (error) {
-    return res
-      .status(HttpStatusCode.Ok)
-      .json({
-        response: HttpStatusCode.InternalServerError,
-        message: error.message,
-      });
-  }
-};
-
 const userUpdateProfileController = async (req, res) => {
   const {
     userEmail,
@@ -176,7 +149,6 @@ const userUpdateProfileController = async (req, res) => {
       userEmail,
       userName,
       userPhoneNumber,
-      userGender,
       userAddress,
       userAge,
       userAvatar,
@@ -206,6 +178,5 @@ export default {
   userResetPasswordController,
   userChangePasswordController,
   userViewProfileController,
-  userViewProfileDetailController,
   userUpdateProfileController,
 };
