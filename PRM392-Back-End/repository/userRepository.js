@@ -284,7 +284,6 @@ const userUpdateProfileRepository = async ({
   userName,
   userPhoneNumber,
   userAddress,
-  userAge,
   userAvatar,
 }) => {
   let userAvtUrl = null;
@@ -308,7 +307,6 @@ const userUpdateProfileRepository = async ({
       ...(userName && { userName }),
       ...(userPhoneNumber && { userPhoneNumber }),
       ...(userAddress && { userAddress }),
-      ...(userAge > 0 && { userAge }),
       ...(userAvtUrl && { userAvatar: userAvtUrl }),
     };
 

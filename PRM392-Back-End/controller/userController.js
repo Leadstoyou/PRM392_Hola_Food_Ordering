@@ -138,9 +138,7 @@ const userUpdateProfileController = async (req, res) => {
     userEmail,
     userName,
     userPhoneNumber,
-    userGender,
     userAddress,
-    userAge,
     userAvatar,
   } = req.body;
 
@@ -150,7 +148,6 @@ const userUpdateProfileController = async (req, res) => {
       userName,
       userPhoneNumber,
       userAddress,
-      userAge,
       userAvatar,
     });
 
