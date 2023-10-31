@@ -3,16 +3,14 @@ import { userController } from "../controller/indexController.js";
 
 const router = express.Router();
 
-router.get("/forgotPassword", userController.userForgotPasswordController);
+router.get("/forgotPassword", userController.userForgotPasswordController); //done
 
-router.put("/resetPassword", userController.userResetPasswordController);
+router.put("/resetPassword", userController.userResetPasswordController); //done
 
-router.put("/changePassword", userController.userChangePasswordController);
+router.put("/changePassword", userController.userChangePasswordController); //done
 
-router.get("/viewProfile", userController.userViewProfileController); // ok
+router.get("/viewProfile", userController.userViewProfileController); // done
 
-router.get("/viewProfileDetail", userController.userViewProfileDetailController);
-
-router.put("/updateProfile", userController.userUpdateProfileController);
+router.put("/updateProfile", userController.userUpdateProfileController); //done
 
 export default router;

@@ -5,6 +5,7 @@ import Exception from "../constant/Exception.js";
 import { HttpStatusCode } from "axios";
 
 const client = new OAuth2Client(config.client_id.key);
+
 const userLoginByGoogle = async (req, res) => {
   const idToken = req.headers.authorization;
   console.log(idToken);
