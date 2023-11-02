@@ -5,12 +5,12 @@ const router = express.Router();
 
 router.get("/getAllDiscount", discountController.getAllDiscountController); 
 
-// router.get("/getDiscountById", discountController.getCategoryByIdController); 
+router.get("/getDiscountById", discountController.getDiscountByIdController); 
 
-// router.post("/createDiscount", discountController.createCategoryController); 
+router.post("/createDiscount", discountController.createDiscountController); 
 
-// router.put("/updateDiscount", discountController.updatedCategoryByIdController); 
+router.put("/updateDiscount", discountController.updatedDiscountByIdController); 
 
-// router.delete("/deleteDiscount", discountController.deleteCategoryByIdController);  
+router.delete("/deleteDiscount", discountController.deleteDiscountByIdController);  
 
 export default router;
