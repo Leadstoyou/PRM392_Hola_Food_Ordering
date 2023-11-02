@@ -26,6 +26,8 @@ export default class Exception extends Error{
     static REFRESH_TOKEN_INVALID = "Refresh token is invalid"
     static PERMISSION_DENIED = "Permission denied"
     static CATEGORY_NOT_FOUND = "Category is not found"
+    static CATEGORY_EXIST = "Category is exists"
+    static DELETE_USER_ERROR = "Delete user error"
     constructor(message,validationErrors ={}) {
         super(message)
         console.log("File Exception.js:",message)
