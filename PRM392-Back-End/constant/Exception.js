@@ -28,6 +28,15 @@ export default class Exception extends Error{
     static CATEGORY_NOT_FOUND = "Category is not found"
     static CATEGORY_EXIST = "Category is exists"
     static DELETE_USER_ERROR = "Delete user error"
+    static FEEDBACK_NOT_FOUND = "Feedback not found"
+    static CREATE_CATEGORY_ERROR = "Create category error"
+    static UPDATE_CATEGORY_ERROR = "Update category error"
+    static DELETE_CATEGORY_ERROR = "Delete category error"
+    static CREATE_FEEDBACK_ERROR = "Create feedback error"
+    static FEEDBACK_NOT_FOUND_ERROR = "Feedback not found"
+    static UPDATE_FEEDBACK_ERROR = "Update feedback error"
+    static DELETE_FEEDBACK_ERROR = "Delete feedback error"
+    
     constructor(message,validationErrors ={}) {
         super(message)
         console.log("File Exception.js:",message)

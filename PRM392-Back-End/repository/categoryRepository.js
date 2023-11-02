@@ -50,6 +50,12 @@ const createCategoryRepository = async (name, description) => {
     }
 
     const newCategory = await Category.create({ name, description });
+    if (!newCategory) {
+      return {
+        success: false,
+        message: Exception.CREATE_CATEGORY_ERROR,
+      };
+    }
     return {
       success: true,
       message: SuccessConstants.CREATE_CATEGORY_SUCCESS,
@@ -86,13 +92,13 @@ const updatedCategoryByIdRepository = async (id, name, description) => {
     if (!updatedCategoryById) {
       return {
         success: false,
-        message: Exception.UPDATE_USER_ERROR,
+        message: Exception.UPDATE_CATEGORY_ERROR,
       };
     }
 
     return {
       success: true,
-      message: SuccessConstants.UPDATE_PROFILE_SUCCESS,
+      message: SuccessConstants.UPDATE_CATEGORY_SUCCESS,
       data: updatedCategoryById,
     };
   } catch (exception) {
@@ -116,13 +122,13 @@ const deleteCategoryByIdRepository = async (id) => {
     if (!deleteCategoryById) {
       return {
         success: false,
-        message: Exception.DELETE_USER_ERROR,
+        message: Exception.DELETE_CATEGORY_ERROR,
       };
     }
 
     return {
       success: true,
-      message: SuccessConstants.DELETE_USER_SUCCESS,
+      message: SuccessConstants.DELETE_CATEGORY_SUCCESS,
       data: deleteCategoryById,
     };
   } catch (exception) {
