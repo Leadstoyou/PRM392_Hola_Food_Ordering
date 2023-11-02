@@ -28,9 +28,9 @@ const userLoginByGoogle = async (req, res) => {
       const user = await userRepository.userLoginByGoogle(payload.email);
       if (!user.success && user.message === Exception.CANNOT_FIND_USER) {
         const newUserRegistered = await userRepository.userRegisterByGoogle({
-          username: payload.name,
-          email: payload.email,
-          avatarImgUrl: payload.picture,
+          userName: payload.name,
+          userEmail: payload.email,
+          userAvatarUrl: payload.picture,
         });
         return res.status(HttpStatusCode.Created).json({
           response: HttpStatusCode.Created,

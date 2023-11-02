@@ -7,9 +7,9 @@ import generateOTPWithExpiration from "../services/createOTP.js";
 import cloudinaryService from "../services/cloudinaryService.js";
 import bcrypt from "bcrypt";
 
-const userLoginByGoogle = async (email) => {
+const userLoginByGoogle = async (userEmail) => {
   try {
-    const existingUser = await User.findOne({ userEmail: email }).exec();
+    const existingUser = await User.findOne({ userEmail }).exec();
     if (!existingUser || existingUser.length === 0) {
       return {
         response: false,
@@ -29,12 +29,12 @@ const userLoginByGoogle = async (email) => {
   }
 };
 
-const userRegisterByGoogle = async ({ username, email, avatarImgUrl }) => {
+const userRegisterByGoogle = async ({ userName, userEmail, userAvatarUrl }) => {
   try {
     const newUser = await User.create({
-      userEmail: email,
-      userName: username,
-      userAvatarUrl: avatarImgUrl,
+      userEmail,
+      userName,
+      userAvatarUrl,
       roleId: ConfigConstants.USER_ROLE_ID,
     });
     if (!newUser) {
@@ -101,7 +101,7 @@ const userRegisterByLocal = async ({
 const userLoginByLocal = async ({ userEmail, userPassword }) => {
   try {
     const existingUser = await User.findOne({
-      userEmail
+      userEmail,
     }).exec();
     if (!existingUser) {
       return {
@@ -210,7 +210,7 @@ const userChangePasswordRepository = async ({
   newPassword,
 }) => {
   try {
-    const existingUser = await User.findOne({userEmail}).exec();
+    const existingUser = await User.findOne({ userEmail }).exec();
     if (!existingUser) {
       return {
         success: false,
@@ -235,7 +235,7 @@ const userChangePasswordRepository = async ({
     );
 
     const updatedUser = await User.findOneAndUpdate(
-      {userEmail},
+      { userEmail },
       { userPassword: hashedPassword },
       { new: true }
     ).exec();
@@ -278,17 +278,16 @@ const userViewProfileRepository = async (userEmail) => {
   }
 };
 
-
 const userUpdateProfileRepository = async ({
   userEmail,
   userName,
   userPhoneNumber,
   userAddress,
-  userAvatar,
+  userAvatarUrl,
 }) => {
-  let userAvtUrl = null;
+  let userAvt = null;
   try {
-    const existingUser = await User.findOne({userEmail}).exec();
+    const existingUser = await User.findOne({ userEmail }).exec();
     if (!existingUser) {
       return {
         success: false,
@@ -296,9 +295,9 @@ const userUpdateProfileRepository = async ({
       };
     }
 
-    if (userAvatar) {
-      userAvtUrl = await cloudinaryService.uploadProductImageToCloudinary(
-        userAvatar,
+    if (userAvatarUrl) {
+      userAvt = await cloudinaryService.uploadProductImageToCloudinary(
+        userAvatarUrl,
         ConfigConstants.CLOUDINARY_USER_AVATAR_IMG
       );
     }
@@ -307,12 +306,16 @@ const userUpdateProfileRepository = async ({
       ...(userName && { userName }),
       ...(userPhoneNumber && { userPhoneNumber }),
       ...(userAddress && { userAddress }),
-      ...(userAvtUrl && { userAvatar: userAvtUrl }),
+      ...(userAvatarUrl && { userAvatarUrl: userAvt }),
     };
 
-    const updatedUser = await User.findOneAndUpdate({userEmail}, updateFields, {
-      new: true,
-    }).exec();
+    const updatedUser = await User.findOneAndUpdate(
+      { userEmail },
+      updateFields,
+      {
+        new: true,
+      }
+    ).exec();
     if (!updatedUser) {
       return {
         success: false,
@@ -328,8 +331,8 @@ const userUpdateProfileRepository = async ({
       },
     };
   } catch (exception) {
-    if (userAvtUrl) {
-      cloudinaryService.deleteImageFromCloudinary(userAvtUrl);
+    if (userAvt) {
+      cloudinaryService.deleteImageFromCloudinary(userAvt);
     }
     return {
       success: false,
