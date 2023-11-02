@@ -119,7 +119,7 @@ const userViewProfileController = async (req, res) => {
       });
     }
     return res.status(HttpStatusCode.Ok).json({
-      response: HttpStatusCode.BadRequest,
+      response: HttpStatusCode.Ok,
       message: userInfo.message,
       data: userInfo.data,
     });
