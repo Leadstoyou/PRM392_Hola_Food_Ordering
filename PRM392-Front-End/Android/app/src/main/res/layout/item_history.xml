@@ -1,0 +1,262 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="600dp"
+    android:layout_margin="10dp"
+    app:cardCornerRadius="8dp"
+    android:background="#FF5733"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="600dp"
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvTitle9"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Code: "
+                android:inputType="none"
+                android:padding="8dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tvCode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:id="@+id/tvTitle"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Name: "
+                android:inputType="none"
+                android:padding="8dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:layout_gravity="center"
+                android:id="@+id/tvName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+
+
+            <TextView
+                android:id="@+id/tvTitle2"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Phone: "
+                android:inputType="none"
+                android:padding="8dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+
+
+            <TextView
+                android:id="@+id/tvTitle3"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Address: "
+                android:inputType="none"
+                android:layout_marginStart="15dp"
+                android:padding="8dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvLocation"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTitle5"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="ListFood: "
+                android:inputType="none"
+                android:padding="8dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvListFood"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTitle6"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Date: "
+                android:inputType="none"
+                android:layout_marginStart="15dp"
+                android:padding="8dp"
+                android:textColor="#000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvDate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTitle7"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Total Bill: "
+                android:inputType="none"
+                android:layout_marginStart="15dp"
+                android:padding="8dp"
+                android:textColor="#FF0000"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvTotalBill"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#FF0000"
+                android:textSize="18sp"
+                />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:orientation="horizontal"
+            android:layout_marginBottom="20dp"
+            >
+
+            <TextView
+                android:id="@+id/tvTitle8"
+                android:layout_width="120dp"
+                android:layout_height="wrap_content"
+                android:hint="Payment Method: "
+                android:inputType="none"
+                android:padding="8dp"
+                android:layout_marginStart="15dp"
+                android:textColor="#001"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/tvPayment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="8dp"
+                android:text="Title Here"
+                android:textColor="#000"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>

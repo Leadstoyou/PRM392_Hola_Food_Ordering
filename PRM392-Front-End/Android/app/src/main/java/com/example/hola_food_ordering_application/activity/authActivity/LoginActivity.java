@@ -17,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.hola_food_ordering_application.apiService.APIAuthService;
 import com.example.hola_food_ordering_application.R;
 import com.example.hola_food_ordering_application.activity.customerActivity.CustomerMainActivity;
+import com.example.hola_food_ordering_application.constants.Constants;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
@@ -114,12 +115,13 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                             Intent intent = new Intent(LoginActivity.this, CustomerMainActivity.class);
                             Log.e("lmeo", s.get("data").toString());
-                            intent.putExtra("dataJSON", s.get("data").toString());
+                            intent.putExtra(Constants.DATA_PUT_EXTRA_NAME, s.get("data").toString());
                             startActivity(intent);
                         } else {
                             onError(new Exception("Response not in the 200-300 range"));
                         }
                     }
+
                     @Override
                     public void onError(@NonNull Throwable e) {
                         mProgressDialog.dismiss();
@@ -162,11 +164,10 @@ public class LoginActivity extends AppCompatActivity {
         JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         mProgressDialog.show();
 
-        APIAuthService.apiService.callAPI(jsonObject, acct.getIdToken())
+        APIAuthService.apiService.callAPILoginGoogle(jsonObject, acct.getIdToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
-
                                @Override
                                public void onSubscribe(@NonNull Disposable d) {
                                    mDisposable = d;
@@ -179,7 +180,7 @@ public class LoginActivity extends AppCompatActivity {
                                    if (responseCode >= 200 && responseCode <= 300) {
                                        finish();
                                        Intent intent = new Intent(LoginActivity.this, CustomerMainActivity.class);
-                                       intent.putExtra("dataJSON", s.get("data").toString());
+                                       intent.putExtra(Constants.DATA_PUT_EXTRA_NAME, s.get("data").toString());
                                        Log.e("lmeo2", s.get("data").toString());
                                        startActivity(intent);
                                    } else {
