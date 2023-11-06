@@ -13,7 +13,10 @@ const Feedback = mongoose.model(
       ref: "Product",
       required: true,
     },
-    text: String,
+    text:{
+      type: String,
+      required: true,
+    } ,
   })
 );
 export default Feedback;

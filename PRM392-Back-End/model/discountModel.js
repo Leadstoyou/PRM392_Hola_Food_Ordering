@@ -10,6 +10,7 @@ const Discount = mongoose.model(
     },
     name: {
       type: String,
+      unique: true,
       required: true,
     },
     percent: {
@@ -28,7 +29,7 @@ const Discount = mongoose.model(
       {
         type: Schema.Types.ObjectId,
         ref: "Product",
-        required: true,
+        required: false,
       },
     ],
   })
