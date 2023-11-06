@@ -29,7 +29,7 @@ const createProduct = (data) => {
   });
 };
 
-const getAllProduct = ({ search = "", categoryId }) => {
+const getAllProduct = ({ search = "", categoryId, sort }) => {
   return new Promise(async (resolve, reject) => {
     try {
       const conditions = {
@@ -38,13 +38,28 @@ const getAllProduct = ({ search = "", categoryId }) => {
           { description: { $regex: search, $options: "i" } },
         ],
       };
+      let sortQuery = {};
+      switch (sort) {
+        case ConfigConstants.SORT.latest:
+          sortQuery = { createdAt: -1 };
+          break;
+        case ConfigConstants.SORT.oldest:
+          sortQuery = { createdAt: 1 };
+          break;
+        case ConfigConstants.SORT.popular:
+          sortQuery = { updatedAt: -1 };
+          break;
+        default:
+          break;
+      }
       if (categoryId) {
         conditions.category = categoryId;
       }
       const searchQuery = search || categoryId ? conditions : null;
       const totalProduct = await Product.count(searchQuery);
-      const allProduct =
-        await Product.find(searchQuery).populate("category images");
+      const allProduct = await Product.find(searchQuery)
+        .populate("category images")
+        .sort(sortQuery);
       if (!allProduct.length)
         reject({
           status: HttpStatusCode.NotFound,

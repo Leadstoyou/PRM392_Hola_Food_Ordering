@@ -1,4 +1,4 @@
-package com.example.hola_food_ordering_application.recyclerView;
+package com.example.hola_food_ordering_application.recyclerView.homepage;
 
 public class Thumbnail_Image {
     private int resourceImage;

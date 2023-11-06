@@ -1,26 +1,26 @@
-package com.example.hola_food_ordering_application.recyclerView;
+package com.example.hola_food_ordering_application.recyclerView.admin;
 
-public class User {
-    private int resourceImage;
+public class AdminManage {
+    private String date;
     private String name;
     private String phone;
     private String address;
-    private String email;
+    private int totalBill;
 
-    public User(int resourceImage, String name, String phone, String address, String email) {
-        this.resourceImage = resourceImage;
+    public AdminManage(String date, String name, String phone, String address, int totalBill) {
+        this.date = date;
         this.name = name;
         this.phone = phone;
         this.address = address;
-        this.email = email;
+        this.totalBill = totalBill;
     }
 
-    public int getResourceImage() {
-        return resourceImage;
+    public String getDate() {
+        return date;
     }
 
-    public void setResourceImage(int resourceImage) {
-        this.resourceImage = resourceImage;
+    public void setDate(String date) {
+        this.date = date;
     }
 
     public String getName() {
@@ -47,11 +47,11 @@ public class User {
         this.address = address;
     }
 
-    public String getEmail() {
-        return email;
+    public int getTotalBill() {
+        return totalBill;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setTotalBill(int totalBill) {
+        this.totalBill = totalBill;
     }
 }
