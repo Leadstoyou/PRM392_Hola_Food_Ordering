@@ -15,8 +15,12 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava3.RxJava3CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 
 public interface APIProductService {
     HttpLoggingInterceptor ldas = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
@@ -28,17 +32,21 @@ public interface APIProductService {
 
     APIAuthService apiService = new Retrofit.Builder()
 //            .baseUrl(Constants.CALL_API_URL_AUTH)
-            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
+            .baseUrl("http://192.168.101.2:8080/api/v1/product/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(okBuilder.build())
             .build()
             .create(APIAuthService.class);
 
-    @POST("google/login")
-    Observable<JsonObject> callAPILoginGoogle(@Header("Authorization") String jwt);
-    @POST("local/login")
-    Observable<JsonObject> callAPILoginLocal(@Body JsonObject jsonBody);
-    @POST("local/register")
-    Observable<JsonObject> callAPIRegisterLocal(@Body JsonObject jsonBody);
+    @POST("create")
+    Observable<JsonObject> callAPICreateProduct(@Body JsonObject jsonBody);
+    @PUT("update/{id}")
+    Observable<JsonObject> callAPIUpdateProduct(@Path("id") String id, @Body JsonObject jsonBody);
+    @GET("get-all")
+    Observable<JsonObject> callAPIGetAllProduct();
+    @GET("get/{id}")
+    Observable<JsonObject> callAPIGetProductById(@Path("id") String id);
+    @DELETE("delete/{id}")
+    Observable<JsonObject> callAPIGetProductById(@Path("id") String id,@Body JsonObject jsonBody);
 }
