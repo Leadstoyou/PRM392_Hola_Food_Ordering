@@ -23,6 +23,9 @@ const Order = mongoose.model(
         ref: "Cart",
         required: true,
       },
+      product:[
+        
+      ],
       status: {
         type: String,
         required: true,
