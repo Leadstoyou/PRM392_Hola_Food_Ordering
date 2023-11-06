@@ -17,10 +17,25 @@ const Order = mongoose.model(
         type: String,
         required: true,
       },
-      Note: String,
-      cart: {
-        type: Schema.Types.ObjectId,
-        ref: "Cart",
+      note: String,
+      products: [
+        {
+          product: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: "Product",
+          },
+          price: {
+            type: String,
+            required: true,
+          },
+          quantity: {
+            type: Number,
+            required: true,
+          },
+        },
+      ],
+      total: {
+        type: Number,
         required: true,
       },
       product:[
