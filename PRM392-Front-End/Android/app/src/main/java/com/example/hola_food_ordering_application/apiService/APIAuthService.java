@@ -1,5 +1,6 @@
 package com.example.hola_food_ordering_application.apiService;
 
+import com.example.hola_food_ordering_application.constants.Constants;
 import com.google.gson.JsonObject;
 
 import java.util.concurrent.TimeUnit;
@@ -25,7 +26,7 @@ public interface APIAuthService {
             .addInterceptor(ldas);
 
     APIAuthService apiService = new Retrofit.Builder()
-            .baseUrl("https://hola-food-ordering-application.onrender.com/api/v1/auth/")
+            .baseUrl(Constants.CALL_API_URL_AUTH)
 //            .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
 //            .baseUrl("http://192.168.137.1:8080/api/v1/auth/")
             .addConverterFactory(GsonConverterFactory.create())
@@ -35,7 +36,7 @@ public interface APIAuthService {
             .create(APIAuthService.class);
 
     @POST("google/login")
-    Observable<JsonObject> callAPI(@Body JsonObject jsonBody, @Header("Authorization") String jwt);
+    Observable<JsonObject> callAPILoginGoogle(@Body JsonObject jsonBody, @Header("Authorization") String jwt);
     @POST("local/login")
     Observable<JsonObject> callAPILoginLocal(@Body JsonObject jsonBody);
     @POST("local/register")

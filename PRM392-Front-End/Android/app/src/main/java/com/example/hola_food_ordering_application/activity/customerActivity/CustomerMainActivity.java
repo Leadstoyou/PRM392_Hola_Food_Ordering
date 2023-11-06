@@ -1,10 +1,14 @@
 package com.example.hola_food_ordering_application.activity.customerActivity;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
+import android.widget.SearchView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -20,9 +24,11 @@ import androidx.fragment.app.FragmentTransaction;
 import com.bumptech.glide.Glide;
 import com.example.hola_food_ordering_application.R;
 import com.example.hola_food_ordering_application.activity.authActivity.LoginActivity;
+import com.example.hola_food_ordering_application.activity.authActivity.RegisterActivity;
 import com.example.hola_food_ordering_application.constants.Constants;
 import com.example.hola_food_ordering_application.fragment.CustomerCartFragment;
 import com.example.hola_food_ordering_application.fragment.CustomerCategoryFragment;
+import com.example.hola_food_ordering_application.fragment.CustomerFoodDetailFragment;
 import com.example.hola_food_ordering_application.fragment.CustomerHomepageFragment;
 import com.example.hola_food_ordering_application.fragment.CustomerOrderHistoryFragment;
 import com.example.hola_food_ordering_application.fragment.CustomerUserProfileFragment;
@@ -32,6 +38,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+
+import java.util.Objects;
 
 public class CustomerMainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
     private DrawerLayout drawerLayout;
@@ -46,6 +54,7 @@ public class CustomerMainActivity extends AppCompatActivity implements Navigatio
     private JsonObject jsonObject;
     private ImageView userProfilePictrue;
     private TextView userName,userEmail;
+    SearchView searchView;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +66,7 @@ public class CustomerMainActivity extends AppCompatActivity implements Navigatio
     private void bindingView() {
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
         gsc = GoogleSignIn.getClient(this, gso);
-        jsonString = getIntent().getStringExtra("dataJSON");
+        jsonString = getIntent().getStringExtra(Constants.DATA_PUT_EXTRA_NAME);
 
         jsonObject = new JsonParser().parse(jsonString).getAsJsonObject();
         toolbar = findViewById(R.id.main_toolbar);
@@ -72,15 +81,20 @@ public class CustomerMainActivity extends AppCompatActivity implements Navigatio
         userEmail = navigationView.getHeaderView(0).findViewById(R.id.nav_header_user_email);
 
         mCurrentNavId = R.id.nav_homepage;
+        searchView= new SearchView(this);
     }
 
     private void bindingAction() {
+        searchView.setQueryHint(Constants.SEARCH_HINT);
+        handleSearch();
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(Constants.TOOLBAR_TITTLE);
+        toolbar.addView(searchView);
 
         userName.setText(jsonObject.get("userName").getAsString());
         userEmail.setText(jsonObject.get("userEmail").getAsString());
         Glide.with(this).load(jsonObject.get("userAvatarUrl").getAsString()).into(userProfilePictrue);
 
-        setSupportActionBar(toolbar);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.open, R.string.close);
         actionBarDrawerToggle.syncState();
@@ -134,6 +148,31 @@ public class CustomerMainActivity extends AppCompatActivity implements Navigatio
         return false;
     }
 
+    public void handleSearch(){
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                Log.e("searchTextSubmit",query.toString());
+                replaceFragments(new CustomerFoodDetailFragment());
+                navigationView.getMenu().findItem(mCurrentNavId).setChecked(false);
+                mCurrentFragment = Constants.CUSTOMER_FRAGMENT_FOOD_DETAIL;
+
+                searchView.setIconified(true);
+
+                //Handle Close UI
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(searchView.getWindowToken(), 0);
+                searchView.clearFocus();
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                Log.e("searchTextChange",newText.toString());
+                return true;
+            }
+        });
+    }
     @Override
     public void onBackPressed() {
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {

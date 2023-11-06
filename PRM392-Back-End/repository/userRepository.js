@@ -2,17 +2,16 @@ import { User } from "../model/indexModel.js";
 import Exception from "../constant/Exception.js";
 import SuccessConstants from "../constant/SuccessConstants.js";
 import ConfigConstants from "../constant/ConfigConstants.js";
-import sendMailService from "../services/sendMailService.js";
-import generateOTPWithExpiration from "../services/createOTP.js";
-import cloudinaryService from "../services/cloudinaryService.js";
-import bcrypt from "bcrypt";
+import sendMailService from "../service/sendMailService.js";
+import generateOTPWithExpiration from "../service/createOTP.js";
+import cloudinaryService from "../service/cloudinaryService.js";
 
 const userLoginByGoogle = async (userEmail) => {
   try {
     const existingUser = await User.findOne({ userEmail }).exec();
     if (!existingUser || existingUser.length === 0) {
       return {
-        response: false,
+        success: false,
         message: Exception.CANNOT_FIND_USER,
       };
     }
@@ -71,20 +70,17 @@ const userRegisterByLocal = async ({
         message: Exception.USER_EXIST,
       };
     }
-    const hashedPassword = await bcrypt.hash(
-      userPassword,
-      parseInt(process.env.SALT_ROUNDS)
-    );
     const newUser = await User.create({
       userName,
       userEmail,
-      userPassword: hashedPassword,
+      userPassword,
       userAddress,
       userPhoneNumber,
     });
 
     const userWithoutPassword = { ...newUser._doc };
     delete userWithoutPassword.userPassword;
+
     return {
       success: true,
       message: "User registered successfully",
@@ -105,11 +101,10 @@ const userLoginByLocal = async ({ userEmail, userPassword }) => {
     }).exec();
     if (!existingUser) {
       return {
-        response: false,
+        success: false,
         message: Exception.CANNOT_FIND_USER,
       };
     }
-
     const isMatched = bcrypt.compareSync(
       userPassword,
       existingUser.userPassword
