@@ -1,9 +1,5 @@
 package com.example.hola_food_ordering_application.apiService;
 
-import android.content.Context;
-import android.content.SharedPreferences;
-
-import com.example.hola_food_ordering_application.constants.Constants;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
@@ -22,16 +18,24 @@ import retrofit2.http.Body;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 
-
-public interface APIAuthService {
-
+public interface APIProductService {
     HttpLoggingInterceptor ldas = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     String token ="";
     OkHttpClient.Builder okBuilder = new OkHttpClient.Builder()
             .readTimeout(13, TimeUnit.SECONDS)
             .connectTimeout(13, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
-            .addInterceptor(ldas);
+            .addInterceptor(ldas)
+            .addInterceptor(new Interceptor() {
+                @Override
+                public Response intercept(Chain chain) throws IOException {
+                    Request newRequest  = chain.request().newBuilder()
+                            .addHeader("Authorization", "Bearer " + token)
+                            .build();
+                    return chain.proceed(newRequest);
+                }
+            });
+
     APIAuthService apiService = new Retrofit.Builder()
 //            .baseUrl(Constants.CALL_API_URL_AUTH)
             .baseUrl("http://192.168.101.2:8080/api/v1/auth/")
