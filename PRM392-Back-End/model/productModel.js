@@ -9,7 +9,7 @@ const Product = mongoose.model(
         required: true,
       },
 
-      descriptions: {
+      description: {
         type: String,
       },
       price: {
