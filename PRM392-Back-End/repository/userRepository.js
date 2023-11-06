@@ -24,7 +24,7 @@ const userSearchRepository = async ({
       ],
     };
     if (role != undefined) {
-      matchQuery.userRole = role;
+      matchQuery.roleId = role;
     }
 
     const totalUsers = await User.countDocuments(matchQuery);

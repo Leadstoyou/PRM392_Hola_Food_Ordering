@@ -49,7 +49,7 @@ const userSearchController = async (req, res) => {
         data: users,
       },
     });
-  } catch (exception) {
+  } catch (error) {
     return res
       .status(HttpStatusCode.Ok)
       .json({
