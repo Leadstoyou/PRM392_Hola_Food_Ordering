@@ -10,7 +10,6 @@ const client = new OAuth2Client(config.client_id.key);
 
 const userLoginByGoogle = async (req, res) => {
   const idToken = req.headers.authorization;
-  console.log(idToken);
   try {
     const ticket = await client.verifyIdToken({
       idToken: idToken,
@@ -37,12 +36,7 @@ const userLoginByGoogle = async (req, res) => {
           userAvatarUrl: payload.picture,
         });
 
-        console.log(
-          "debug1",
-          newUserRegistered.data._id,
-          newUserRegistered.data.roleId
-        );
-        const accessToken = jwtService.generalAccessToken(
+        const accessToken = await jwtService.generalAccessToken(
           newUserRegistered.data._id,
           newUserRegistered.data.roleId
         );
@@ -54,9 +48,8 @@ const userLoginByGoogle = async (req, res) => {
           accessToken,
         });
       }
-
-      console.log("debug1", user.data._id, user.data.roleId);
-      const accessToken = jwtService.generalAccessToken(
+      
+      const accessToken = await jwtService.generalAccessToken(
         user.data._id,
         user.data.roleId
       );
@@ -97,7 +90,7 @@ const userLoginByLocal = async (req, res) => {
         message: user.message,
       });
     }
-    const accessToken = jwtService.generalAccessToken(
+    const accessToken = await jwtService.generalAccessToken(
       user.data._id,
       user.data.roleId
     );
