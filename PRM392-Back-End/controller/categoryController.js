@@ -106,7 +106,7 @@ const deleteCategoryByIdController = async (req,res) => {
   const {id } = req.body;
     try {
       const deleteCategory =
-        await categoryRepository.updatedCategoryByIdRepository(
+        await categoryRepository.deleteCategoryByIdRepository(
           id
         );
       if (!deleteCategory.success) {

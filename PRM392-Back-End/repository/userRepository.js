@@ -6,6 +6,65 @@ import sendMailService from "../service/sendMailService.js";
 import generateOTPWithExpiration from "../service/createOTP.js";
 import cloudinaryService from "../service/cloudinaryService.js";
 
+const userSearchRepository = async ({ page, size, search, role }) => {
+  try {
+    const matchQuery = {
+      $or: [
+        {
+          userName: { $regex: `.*${search}.*`, $options: "i" },
+        },
+        {
+          userEmail: { $regex: `.*${search}.*`, $options: "i" },
+        },
+      ],
+    };
+    if (role != undefined) {
+      matchQuery.roleId = role;
+    }
+
+    const totalUsers = await User.countDocuments(matchQuery);
+    console.log(totalUsers);
+    if (totalUsers == 0) {
+      return {
+        success: false,
+        message: "No data",
+      };
+    }
+    if (!size) {
+      size = totalUsers;
+    }
+
+    let filteredUsers = await User.aggregate([
+      {
+        $match: matchQuery,
+      },
+      { $skip: (page - 1) * size },
+      { $limit: size },
+    ]);
+
+    if (!filteredUsers) {
+      return {
+        success: false,
+        message: Exception.CANNOT_FIND_USER,
+      };
+    }
+
+    return {
+      success: true,
+      message: SuccessConstants.GET_USER_SUCCESS,
+      data: {
+        total: totalUsers,
+        users: filteredUsers,
+      },
+    };
+  } catch (exception) {
+    return {
+      success: false,
+      message: exception.message,
+    };
+  }
+};
+
 const userLoginByGoogle = async (userEmail) => {
   try {
     const existingUser = await User.findOne({ userEmail }).exec();
@@ -336,6 +395,44 @@ const userUpdateProfileRepository = async ({
   }
 };
 
+const userUpdateRoleRepository = async ({ userId, newRole }) => {
+  try {
+    const existingUser = await User.findById(userId);
+    if (!existingUser) {
+      return {
+        success: false,
+        message: Exception.CANNOT_FIND_USER,
+      };
+    }
+
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { userRole: newRole },
+      { new: true }
+    ).exec();
+    if (!updatedUser) {
+      return {
+        success: false,
+        message: Exception.UPDATE_USER_ERROR,
+      };
+    }
+
+    return {
+      success: true,
+      message: SuccessConstants.UPDATE_ROLE_SUCCESS,
+      data: {
+        ...updatedUser.toObject(),
+        userPassword: "Not shown",
+      },
+    };
+  } catch (exception) {
+    return {
+      success: false,
+      message: exception.message,
+    };
+  }
+};
+
 export default {
   userLoginByGoogle,
   userRegisterByGoogle,
@@ -346,4 +443,6 @@ export default {
   userChangePasswordRepository,
   userViewProfileRepository,
   userUpdateProfileRepository,
+  userUpdateRoleRepository,
+  userSearchRepository,
 };
