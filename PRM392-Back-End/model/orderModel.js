@@ -38,6 +38,9 @@ const Order = mongoose.model(
         type: Number,
         required: true,
       },
+      product:[
+        
+      ],
       status: {
         type: String,
         required: true,

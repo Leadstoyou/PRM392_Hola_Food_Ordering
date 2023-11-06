@@ -26,4 +26,15 @@
     <string name="order_history">Lịch Sử Mua Hàng</string>
     <string name="user_profile">Thông tin người dùng</string>
     <string name="logout">Đăng Xuất</string>
+    <string name="category_tittle">Danh sách thể loại</string>
+    <string name="homepage_product_list">Danh sách các sản phẩm</string>
+    <string name="homepage_product_popular">Sản phẩm phổ biến</string>
+    <string name="homepage_product_list_newest">Sản phẩm mới nhất</string>
+    <string name="homepage_events">Các sự kiện nổi bật</string>
+    <string name="homepage_drinking_popular">Đồ uống đa dạng</string>
+    <string name="homepage_pet_food">Chọn món cho boss đi sen </string>
+    <string name="homepage_cake">Bánh ngọt cho các nàng thơ</string>
+    <string name="homepage_other_food">Các món khác có thể bạn sẽ thích</string>
+    <dimen name="item_margin">1dp</dimen>
+    <dimen name="grid_spacing">8dp</dimen>
 </resources>

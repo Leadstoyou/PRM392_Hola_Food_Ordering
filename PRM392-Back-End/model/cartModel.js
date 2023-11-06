@@ -5,7 +5,6 @@ const Cart = mongoose.model(
   new Schema({
     token: {
       type: String,
-      required: true,
     },
     user: {
       type: Schema.Types.ObjectId,
@@ -27,6 +26,8 @@ const Cart = mongoose.model(
       type: Number,
       required: true,
     },
+  },{
+    timestamps:true,
   })
 );
 export default Cart;
