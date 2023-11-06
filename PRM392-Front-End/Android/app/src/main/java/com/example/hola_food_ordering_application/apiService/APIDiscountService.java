@@ -19,10 +19,9 @@ import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
-public interface APICategoryService {
+public interface APIDiscountService {
     HttpLoggingInterceptor ldas = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
     String token ="";
     OkHttpClient.Builder okBuilder = new OkHttpClient.Builder()
@@ -42,21 +41,21 @@ public interface APICategoryService {
 
     APIAuthService apiService = new Retrofit.Builder()
 //            .baseUrl(Constants.CALL_API_URL_AUTH)
-            .baseUrl("http://192.168.101.2:8080/api/v1/category/")
+            .baseUrl("http://192.168.101.2:8080/api/v1/discount/")
             .addConverterFactory(GsonConverterFactory.create())
             .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
             .client(okBuilder.build())
             .build()
             .create(APIAuthService.class);
 
-    @GET("getAllCategory")
-    Observable<JsonObject> callAPIGetAllCategory();
-    @GET("getCategoryById")
-    Observable<JsonObject> callAPIGetCategoryById(@Query("id") String id);
-    @POST("createCategory")
-    Observable<JsonObject> callAPICreateCategory(@Body JsonObject jsonBody);
-    @PUT("updateCategory")
-    Observable<JsonObject> callAPIUpdateCategory(@Body JsonObject jsonBody);
-    @DELETE("deleteCategory")
-    Observable<JsonObject> callAPIDeleteCategoryById(@Body JsonObject jsonBody);
+    @GET("getAllDiscount")
+    Observable<JsonObject> callAPIGetAllDiscount();
+    @GET("getDiscountById")
+    Observable<JsonObject> callAPIGetDiscountById(@Query("id") String id);
+    @POST("createDiscount")
+    Observable<JsonObject> callAPICreateDiscount(@Body JsonObject jsonBody);
+    @PUT("updateDiscount")
+    Observable<JsonObject> callAPIUpdateDiscount(@Body JsonObject jsonBody);
+    @DELETE("deleteDiscount")
+    Observable<JsonObject> callAPIDeleteDiscountById(@Body JsonObject jsonBody);
 }
