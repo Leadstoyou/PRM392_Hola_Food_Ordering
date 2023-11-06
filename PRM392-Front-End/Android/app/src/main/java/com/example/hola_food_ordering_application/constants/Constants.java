@@ -11,4 +11,5 @@ public class Constants {
     public static final String SEARCH_HINT = "Search...";
     public static final String DATA_PUT_EXTRA_NAME = "dataObjectReceived";
     public static final String CALL_API_URL_AUTH = "https://hola-food-ordering-application.onrender.com/api/v1/auth/";
+    public static final int NUMBER_OF_COLUMN_HOMEPAGE_CATEGORY = 4;
 }

@@ -1,0 +1,17 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <TextView
+        android:id="@+id/item_homepage_event_carousel_tittle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textStyle="bold"
+        android:layout_marginBottom="5dp"
+        android:layout_gravity="center"/>
+    <com.jackandphantom.carouselrecyclerview.view.ReflectionImageView
+        android:id="@+id/item_homepage_event_carousel_image"
+        android:layout_width="150dp"
+        android:layout_height="300dp"
+        android:scaleType="fitXY"
+        />
+</LinearLayout>
