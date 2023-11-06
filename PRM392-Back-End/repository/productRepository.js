@@ -77,7 +77,6 @@ const updateProduct = (id, data) => {
       const existingImages = [];
       data.images?.forEach((image) => {
         if (!image._id) {
-          console.log(image);
           newImages.push(image);
         } else {
           existingImages.push(image);
@@ -103,7 +102,7 @@ const updateProduct = (id, data) => {
       const updatedImages = [...uploadedImages, ...existingImages];
 
       const updatedProductData = {
-        ...existingProduct.toObject(),
+        ...data,
         images: updatedImages,
       };
       const newProduct = await Object.assign(
