@@ -1,7 +1,9 @@
 package com.example.hola_food_ordering_application.activity.authActivity;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -115,6 +117,12 @@ public class LoginActivity extends AppCompatActivity {
                             finish();
                             Intent intent = new Intent(LoginActivity.this, CustomerMainActivity.class);
                             Log.e("lmeo", s.get("data").toString());
+                            //luuw access token
+                            SharedPreferences accessToken = getSharedPreferences("accessToken", Context.MODE_PRIVATE);
+                            SharedPreferences.Editor editor = accessToken.edit();
+                            editor.putString("accessToken",s.get("accessToken").toString());
+                            editor.apply();
+
                             intent.putExtra(Constants.DATA_PUT_EXTRA_NAME, s.get("data").toString());
                             startActivity(intent);
                         } else {
@@ -159,12 +167,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     void navigateToSecondActivity(GoogleSignInAccount acct) {
-        Gson gson = new Gson();
-        String json = gson.toJson(acct);
-        JsonObject jsonObject = gson.fromJson(json, JsonObject.class);
         mProgressDialog.show();
-
-        APIAuthService.apiService.callAPILoginGoogle(jsonObject, acct.getIdToken())
+        APIAuthService.apiService.callAPILoginGoogle(acct.getIdToken())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<JsonObject>() {
@@ -180,8 +184,13 @@ public class LoginActivity extends AppCompatActivity {
                                    if (responseCode >= 200 && responseCode <= 300) {
                                        finish();
                                        Intent intent = new Intent(LoginActivity.this, CustomerMainActivity.class);
+                                       // luu accesstoken
+                                       SharedPreferences accessToken = getSharedPreferences("accessToken", Context.MODE_PRIVATE);
+                                       SharedPreferences.Editor editor = accessToken.edit();
+                                       editor.putString("accessToken",s.get("accessToken").toString());
+                                       editor.apply();
+
                                        intent.putExtra(Constants.DATA_PUT_EXTRA_NAME, s.get("data").toString());
-                                       Log.e("lmeo2", s.get("data").toString());
                                        startActivity(intent);
                                    } else {
                                        onError(new Exception("Response not in the 200-300 range"));

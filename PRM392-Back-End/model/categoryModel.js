@@ -11,6 +11,6 @@ const Category = mongoose.model(
       type: String,
       required: true,
     },
-  })
+  },{})
 );
 export default Category;
