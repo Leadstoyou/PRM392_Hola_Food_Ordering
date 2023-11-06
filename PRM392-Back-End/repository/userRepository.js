@@ -5,6 +5,7 @@ import ConfigConstants from "../constant/ConfigConstants.js";
 import sendMailService from "../service/sendMailService.js";
 import generateOTPWithExpiration from "../service/createOTP.js";
 import cloudinaryService from "../service/cloudinaryService.js";
+import bcrypt from "bcrypt";
 
 const userSearchRepository = async ({ page, size, search, role }) => {
   try {
@@ -198,14 +199,26 @@ const userForgotPasswordRepository = async (userEmail) => {
       };
     }
     const resetCode = generateOTPWithExpiration.generateOTPWithExpiration().otp;
-    existingUser.resetPasswordOTP = resetCode;
+
+    const hashedPassword = await bcrypt.hash(
+      resetCode,
+      parseInt(process.env.SALT_ROUNDS)
+    );
+
+    const updatedUser = await User.findOneAndUpdate(
+      { userEmail },
+      { userPassword: hashedPassword },
+      { new: true }
+    ).exec();
+
     await existingUser.save();
-    const emailSubject = "Bạn forgot password";
-    const emailBody = `Đây là mã code resetpassword, mã code tồn tại trong 15p: ${resetCode}`;
+    const emailSubject = "Bạn quên mật khẩu";
+    const emailBody = `Đây là mật khẩu mới của bạn: ${resetCode}`;
     await sendMailService.sendEmailService(userEmail, emailSubject, emailBody);
     return {
       success: true,
       message: SuccessConstants.FORGOT_PASSWORD_SUCCESS,
+      data: updatedUser
     };
   } catch (exception) {
     return {
