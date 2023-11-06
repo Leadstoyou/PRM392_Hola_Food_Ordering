@@ -7,7 +7,6 @@ const createProduct = (data) => {
   return new Promise(async (resolve, reject) => {
     try {
       const images = [];
-
       for (const image of data.images) {
         const url = await cloudinaryService.uploadProductImageToCloudinary(
           image.url,
