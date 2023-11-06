@@ -1,6 +1,64 @@
 import { userRepository } from "../repository/indexRepository.js";
 import { HttpStatusCode } from "axios";
 
+const userSearchController = async (req, res) => {
+  let { page = 1, size, search = "", role } = req.query;
+  if (page !== undefined && isNaN(page)) {
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.BadRequest,
+      message: "Invalid 'page' value. It should be a number.",
+    });
+  }
+
+  if (size !== undefined && isNaN(size)) {
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.BadRequest,
+      message: "Invalid 'size' value. It should be a number.",
+    });
+  }
+  try {
+    if (page !== undefined) {
+      page = parseInt(page);
+    }
+
+    if (size !== undefined) {
+      size = parseInt(size);
+    }
+
+    if (role !== undefined) {
+      role = parseInt(role);
+    }
+
+    let filteredUsers = await userRepository.userSearchRepository({
+      size,
+      page,
+      search,
+      role,
+    });
+
+    const { total, users } = filteredUsers.data;
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.Ok,
+      message: "Get search successfully",
+      data: {
+        size,
+        page,
+        search,
+        role,
+        total,
+        data: users,
+      },
+    });
+  } catch (exception) {
+    return res
+      .status(HttpStatusCode.Ok)
+      .json({
+        response: HttpStatusCode.InternalServerError,
+        message: error.message,
+      });
+  }
+};
+
 const userForgotPasswordController = async (req, res) => {
   const { userEmail } = req.query;
   if (!userEmail) {
@@ -170,10 +228,39 @@ const userUpdateProfileController = async (req, res) => {
   }
 };
 
+const userUpdateRoleController = async (req, res) => {
+  const { newRole, userId } = req.body;
+  try {
+    const updatedUser = await userRepository.userUpdateRoleRepository({
+      userId,
+      newRole,
+    });
+
+    if (!updatedUser.success) {
+      return res.status(HttpStatusCode.Ok).json({
+        response: HttpStatusCode.BadRequest,
+        message: updatedUser.message,
+      });
+    }
+    return res.status(HttpStatusCode.Ok).json({
+      response: HttpStatusCode.Ok,
+      message: updatedUser.message,
+      data: updatedUser.data,
+    });
+  } catch (exception) {
+    return res.status(HttpStatusCode.InternalServerError).json({
+      status: "ERROR",
+      message: exception.message,
+    });
+  }
+};
+
 export default {
   userForgotPasswordController,
   userResetPasswordController,
   userChangePasswordController,
   userViewProfileController,
   userUpdateProfileController,
+  userUpdateRoleController,
+  userSearchController
 };
