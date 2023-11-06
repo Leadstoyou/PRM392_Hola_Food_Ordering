@@ -5,8 +5,6 @@ import express from "express";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 import routes from "./router/indexRouter.js";
-import { authRouter,userRouter } from "./router/indexRouter.js";
-import routeUnknown from './middleware/routeMiddleware.js'
 dotenv.config();
 const corsOptions = {
   origin: process.env.FRONT_END_ORIGIN_URL,
@@ -23,10 +21,6 @@ const v1Router = express.Router();
 v1Router.use(cookieParser());
 v1Router.use(express.json());
 v1Router.use(bodyParser.urlencoded({ extended: false }));
-
-v1Router.use("/auth", authRouter);
-v1Router.use("/user", userRouter);
-v1Router.use(routeUnknown);
 
 app.use("/api/v1", v1Router);
 routes(v1Router);

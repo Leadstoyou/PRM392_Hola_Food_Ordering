@@ -1,7 +1,7 @@
 import ConfigConstants from "../constant/ConfigConstants.js";
 import Image from "../model/imageModel.js";
 import Product from "../model/productModel.js";
-import cloudinaryService from "../services/cloudinaryService.js";
+import cloudinaryService from "../service/cloudinaryService.js";
 
 const createProduct = (data) => {
   return new Promise(async (resolve, reject) => {
