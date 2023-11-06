@@ -14,5 +14,10 @@ export default {
     momo: "momo",
     cash: "cash",
   },
+  SORT: {
+    latest: "latest",
+    oldest: "oldest",
+    popular: "popular",
+  },
 };
 
