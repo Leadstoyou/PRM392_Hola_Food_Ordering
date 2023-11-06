@@ -6,12 +6,7 @@ import sendMailService from "../service/sendMailService.js";
 import generateOTPWithExpiration from "../service/createOTP.js";
 import cloudinaryService from "../service/cloudinaryService.js";
 
-const userSearchRepository = async ({
-  page,
-  size,
-  search,
-  role,
-}) => {
+const userSearchRepository = async ({ page, size, search, role }) => {
   try {
     const matchQuery = {
       $or: [
@@ -28,6 +23,13 @@ const userSearchRepository = async ({
     }
 
     const totalUsers = await User.countDocuments(matchQuery);
+    console.log(totalUsers);
+    if (totalUsers == 0) {
+      return {
+        success: false,
+        message: "No data",
+      };
+    }
     if (!size) {
       size = totalUsers;
     }
@@ -395,7 +397,6 @@ const userUpdateProfileRepository = async ({
 
 const userUpdateRoleRepository = async ({ userId, newRole }) => {
   try {
-
     const existingUser = await User.findById(userId);
     if (!existingUser) {
       return {
@@ -443,5 +444,5 @@ export default {
   userViewProfileRepository,
   userUpdateProfileRepository,
   userUpdateRoleRepository,
-  userSearchRepository
+  userSearchRepository,
 };

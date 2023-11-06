@@ -35,7 +35,12 @@ const userSearchController = async (req, res) => {
       search,
       role,
     });
-
+    if(!filteredUsers.success){
+      return res.status(HttpStatusCode.Ok).json({
+        response: HttpStatusCode.BadRequest,
+        message: filteredUsers.message,
+      });
+    }
     const { total, users } = filteredUsers.data;
     return res.status(HttpStatusCode.Ok).json({
       response: HttpStatusCode.Ok,
