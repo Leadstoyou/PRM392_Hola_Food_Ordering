@@ -1,18 +1,260 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="60dp"
-        android:layout_marginTop="96dp"
-        android:text="This is the HomePage"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <View
+            android:id="@+id/view"
+            android:layout_width="0dp"
+            android:layout_height="30dp"
+            android:layout_marginTop="185dp"
+            android:background="@color/redLight"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/homepage_background_header" />
+
+        <ImageView
+            android:id="@+id/homepage_background_header"
+            android:layout_width="279dp"
+            android:layout_height="165dp"
+            android:layout_marginStart="67dp"
+            android:layout_marginTop="5dp"
+            android:layout_marginEnd="66dp"
+            app:layout_constraintBottom_toTopOf="@+id/homepage_recyclerview_category"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"
+            app:srcCompat="@drawable/home_page_background_header" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_category"
+            android:layout_width="407dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="52dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/view" />
+
+        <TextView
+            android:id="@+id/homepage_category_tittle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
+            android:text="@string/category_tittle"
+            android:textColor="@color/white"
+            app:layout_constraintBottom_toBottomOf="@+id/view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.531"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <TextView
+            android:id="@+id/homepage_product_list_newest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="@string/homepage_product_list_newest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_category" />
+
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_product_list_newest"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_product_list_newest"
+            tools:listitem="@layout/item_homepage_slider" />
+
+        <TextView
+            android:id="@+id/homepage_product_list_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_product_popular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_product_list_newest" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_product_list_popular"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_product_list_popular"
+            tools:listitem="@layout/item_homepage_slider" />
+        <TextView
+            android:id="@+id/homepage_events"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_events"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_product_list_popular" />
+
+        <com.jackandphantom.carouselrecyclerview.CarouselRecyclerview
+            android:id="@+id/homepage_recyclerview_event_carousel"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="20dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_events"
+            tools:listitem="@layout/item_homepage_slider" />
+        <TextView
+            android:id="@+id/homepage_drinking_popular"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_drinking_popular"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_event_carousel"
+            />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_product_drinking_list_popular"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_drinking_popular"
+            tools:listitem="@layout/item_homepage_slider" />
+
+        <ImageView
+            android:id="@+id/homepage_background_middle_2"
+            android:layout_width="211dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_product_drinking_list_popular"
+            app:srcCompat="@drawable/homepage_background_middle_2" />
+
+        <ImageView
+            android:id="@+id/homepage_background_middle"
+            android:layout_width="211dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_product_drinking_list_popular"
+            app:srcCompat="@drawable/homepage_background_middle" />
+        <TextView
+            android:id="@+id/homepage_pet_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_pet_food"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_background_middle" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_pet_food"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_pet_food"
+            tools:listitem="@layout/item_homepage_slider" />
+
+        <ImageView
+            android:id="@+id/homepage_background_middle_3"
+            android:layout_width="211dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="52dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.00"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_pet_food"
+            app:srcCompat="@drawable/homepage_background_middle_3" />
+
+        <ImageView
+            android:id="@+id/homepage_background_middle_4"
+            android:layout_width="211dp"
+            android:layout_height="122dp"
+            android:layout_marginTop="52dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_pet_food"
+            app:srcCompat="@drawable/homepage_background_middle_4" />
+
+        <TextView
+            android:id="@+id/homepage_cake"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_cake"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_background_middle_3" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_cake"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_cake"
+            tools:listitem="@layout/item_homepage_slider" />
+        <TextView
+            android:id="@+id/homepage_other_food"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="@string/homepage_other_food"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.101"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_recyclerview_slider_cake" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/homepage_recyclerview_slider_other_food"
+            android:layout_width="match_parent"
+            android:layout_height="142dp"
+            android:layout_marginTop="18dp"
+            android:padding="8dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/homepage_other_food"
+            tools:listitem="@layout/item_homepage_slider" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
+
