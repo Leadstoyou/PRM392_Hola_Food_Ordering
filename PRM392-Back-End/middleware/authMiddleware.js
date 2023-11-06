@@ -59,6 +59,34 @@ const checkPermission =
     });
   };
 
+const adminMiddleware = (req, res, next) => {
+  const Authorization = req?.header("Authorization");
+  const token = Authorization?.replace("Bearer ", "");
+  if (!token) {
+    return res.status(404).json({
+      status: HttpStatusCode.NotFound,
+      message: "Token is required",
+    });
+  }
+  jwt.verify(token, process.env.ACCESS_TOKEN, (err, user) => {
+    if (err) {
+      return res.status(404).json({
+        status: HttpStatusCode.NotFound,
+        message: "The authentication",
+      });
+    }
+    if (user?.roleId === 0) {
+      req.user = user;
+      next();
+    } else {
+      return res.status(404).json({
+        status: HttpStatusCode.NotFound,
+        message: "Access denied",
+      });
+    }
+  });
+};
+
 const checkUser = (req, res, next) => {
   if (req?.headers?.authorization?.startsWith("Bearer")) {
     const token = req.headers?.authorization.split(" ")[1];
@@ -78,4 +106,4 @@ const checkUser = (req, res, next) => {
   }
 };
 
-export { checkToken, checkUser, checkPermission };
+export { checkToken, checkUser, checkPermission, adminMiddleware };
