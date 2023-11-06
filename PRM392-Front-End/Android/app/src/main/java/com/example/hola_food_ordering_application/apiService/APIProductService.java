@@ -20,21 +20,11 @@ import retrofit2.http.POST;
 
 public interface APIProductService {
     HttpLoggingInterceptor ldas = new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY);
-    String token ="";
     OkHttpClient.Builder okBuilder = new OkHttpClient.Builder()
             .readTimeout(13, TimeUnit.SECONDS)
             .connectTimeout(13, TimeUnit.SECONDS)
             .retryOnConnectionFailure(true)
-            .addInterceptor(ldas)
-            .addInterceptor(new Interceptor() {
-                @Override
-                public Response intercept(Chain chain) throws IOException {
-                    Request newRequest  = chain.request().newBuilder()
-                            .addHeader("Authorization", "Bearer " + token)
-                            .build();
-                    return chain.proceed(newRequest);
-                }
-            });
+            .addInterceptor(ldas);
 
     APIAuthService apiService = new Retrofit.Builder()
 //            .baseUrl(Constants.CALL_API_URL_AUTH)

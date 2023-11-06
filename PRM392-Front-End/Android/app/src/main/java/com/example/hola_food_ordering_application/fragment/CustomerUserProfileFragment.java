@@ -13,8 +13,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hola_food_ordering_application.R;
-import com.example.hola_food_ordering_application.recyclerView.User;
-import com.example.hola_food_ordering_application.recyclerView.UserAdapter;
+import com.example.hola_food_ordering_application.recyclerView.homepage.User;
+import com.example.hola_food_ordering_application.recyclerView.homepage.UserAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

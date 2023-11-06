@@ -1,4 +1,4 @@
-package com.example.hola_food_ordering_application.recyclerView;
+package com.example.hola_food_ordering_application.recyclerView.homepage;
 
 import android.content.Context;
 import android.view.LayoutInflater;

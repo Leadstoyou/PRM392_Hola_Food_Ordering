@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <TextView
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Code: ABCD1234"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Name: Lê Trung Dũng"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Address: Hà ĐÔng"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Contact: 123456"
+            android:textSize="20sp"
+            />
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Total Bill: ABCD1234"
+            android:textSize="20sp"
+            />
+
+        <TextView
+            android:layout_marginStart="20dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Status: Cancel"
+            android:textSize="20sp"
+            android:layout_marginBottom="20dp"
+            />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/rcv_admin_order_detail"
+            android:layout_width="392dp"
+            android:layout_height="500dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="10dp"
+            android:background="@color/white" />
+
+    </LinearLayout>
+</LinearLayout>

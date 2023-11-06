@@ -12,8 +12,8 @@ import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.hola_food_ordering_application.R;
-import com.example.hola_food_ordering_application.recyclerView.History;
-import com.example.hola_food_ordering_application.recyclerView.HistoryAdapter;
+import com.example.hola_food_ordering_application.recyclerView.homepage.History;
+import com.example.hola_food_ordering_application.recyclerView.homepage.HistoryAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
